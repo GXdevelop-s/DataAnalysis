@@ -38,19 +38,19 @@ print(df3['小红'])  # 同上
 print(df3[['小红']])  # 得到一个DataFrame
 print(df3['小红', '小明'])  # 这必然是一个DataFrame
 print(df[0])  # 注意此处选择的是数据的第一列
-print(df[1:4])  # 注意此时用的是行切片1-3行，其他情况的中括号索引都是
+print(df[1:4])  # 注意此时用的是行切片1-3行，其他情况的中括号索引都是列
 
 # loc&iloc索引
-# 使用 .loc
+# 使用 .loc 显式索引
 print(df.loc['x'])  # 选择行标签为 'x' 的行，返回值是一个Series，index是df的columns
 print(df.loc['x', 'A'])  # 选择行标签为 'x'、列标签为 'A' 的元素，如果有多个元素，则返回Series
-print(df.loc[['x', 'y'], ['A', 'B']])  # 选择行标签为 'x' 和 'y'、列标签为 'A' 和 'B' 的数据（四个元素），返回值是一个DataFrame
-print(df.loc['start_row':'end_row', 'start_column':'end_column'])  # 标签切片是左闭右闭!!!!!!!
+print(df.loc[['x', 'y'], ['A', 'B']])  # 选择行标签为 'x' 和 'y'、列标签为 'A' 和 'B' 的数据（四个元素），返回值是一个DataFrame，这不是切片而是选择
+print(df.loc['start_row':'end_row', 'start_column':'end_column'])  # 这是切片，标签切片是左闭右闭!!! 返回值是一个dataframe
 
-# 使用 .iloc
+# 使用 .iloc 隐式索引
 print(df.iloc[0])  # 选择索引为 0 的行
 print(df.iloc[0, 0])  # 选择行索引为 0、列索引为 0 的元素
-print(df.iloc[0:2, 0:2])  # 位置切片是左闭右开!!!!!!!；选择行索引为 0 到 1、列索引为 0 到 1 的数据
+print(df.iloc[0:2, 0:2])  # 位置切片是左闭右开!!!；选择行索引为 0 到 1、列索引为 0 到 1 的数据 返回值是一个dataframe
 
 # 使用 .at    该方法只适用于快速访问单个元素，不能访问多个元素且不能切片;这在需要高性能的情况下非常有用，特别是在处理大型数据集时
 print(df.at['row_label', 'column_label'])
