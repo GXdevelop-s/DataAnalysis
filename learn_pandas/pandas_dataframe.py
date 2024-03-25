@@ -107,10 +107,11 @@ for index, row in df.iterrows():
 # 4.2 使用迭代器按行遍历，使用 itertuples()方法；itertuples() 方法返回一个迭代器，允许你遍历 DataFrame 的每一行，每次迭代返回一个命名元组，其中包含行的索引和数据。
 for row in df.itertuples():
     print(f'Index: {row.Index}')
-    print(f'Row data - A: {row.name2}, B: {row.age2}')  # 忽略报错代码没问题
+    print(f'Row data - A: {row.name2}, B: {row.age2}')  # 忽略报错代码没问题，迭代器生成的元组允许使用点.运算符直接通过列名来访问行中的数据，但是iterrows不行
     for value in row:
         # 迭代行内元素
         print(f'Value: {value}')
+# iterturples的迭代方式比iterrows快，因为iterrows需要构建Pandas Series对象
 
 # 4.3 使用列名并直接遍历并返回元素
 '''
