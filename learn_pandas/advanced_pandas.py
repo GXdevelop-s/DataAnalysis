@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib as plt
 
 # Pandas 层次化索引
 # 1 创建多层次索引
@@ -54,3 +53,26 @@ columns4 = pd.MultiIndex.from_product([
     ['语文', '数学', '英语']
 ])
 df4 = pd.DataFrame(data=data4, index=index4, columns=columns4)
+
+# 总结：pandas的多层次索引推荐用pd.MultiIndex.from_product笛卡尔积的方式构建，构建三要素：1.矩阵式数据 2.from_product构建index 3.from_product构建column
+
+# 2.多层次索引元素访问
+# 2.1 中括号索引 中阔号索引是可以显式隐式混用的
+print(df4['期中'])  # 会拿到期中下所有班级所有人所有科目的成绩（也就是说行索引不变），返回值是一个df
+print(df4['期中']['数学'])  # 同样的还是行索引不变，得到一个两层索引的series
+print(df4['期中']['数学']['1班'])  # 行索引会变化，只拿到有1班数据的两层索引的series
+print(df4['期中']['数学']['1班']['张三'])  # 最终得到单个元素
+# 2.2 隐式索引
+print(df4.iloc[0, 1])  # 隐式索引是直接对应到最后一层的，是和多层索引无关的，所以多层索引对于隐式索引来说是比较简单的
+# 2.3 显式索引
+print(df4.loc[('1班', '张三'), ('期中', '数学')])  # 显示索引是要分维度的，行索引单独用括号括起来，列索引也单独用括号括起来，里面再按照一级一级去分
+
+# 3.选择和切片
+# 3.1列索引
+print(df4['期中'])
+print(df4['期中']['数学'])  # 变成series了
+print(df4['期中'][['数学']])  # 会保留dataframe的形式
+print(df4.iloc[:, 2])  # 行全取，取第三列
+print(df4.iloc[:, [1, 3]])  # 行全取，取多列，同样是直接对应到最后一层
+print(df4.loc[:, ('期中', '数学')])  ## 行全取，取期中数学，不能直接对应到最后一层
+# 3.2行索引
