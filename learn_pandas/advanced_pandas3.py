@@ -113,7 +113,7 @@ df4.unstack(level=1)  # 显然level的划分和stack一样
 # 所以需要fill_value的填充值
 df4.unstack(fill_value=0)  # 维度不匹配出现的空值由0来填充
 
-# 6聚合操作sum mean max
+# 6 聚合操作sum mean max
 # 6.1sum 求和
 t_df = df4.loc['1班', '期中']  # 取到1班同学的期中各科成绩，是一个dataframe
 t_df.sum()  # 求和
@@ -124,7 +124,7 @@ t_df.values.sum()  # 这样就是求所有数的和
 df4.sum(axis=0)  # 多层索引的求和默认也是求列索引（指最里面一列）的和
 df4.sum(axis=1)  # 求行索引（指最里面一行）的和
 # 多层索引求和可以有两个 axis（行or列） level （哪一层）
-df4.sum(axis=0, level=0)    # axis为0说明是列索引，level说明求和的时候是最外层列索引对每行求和
+df4.sum(axis=0, level=0)  # axis为0说明是列索引，level说明求和的时候是最外层列索引对每行求和
 
 # mean求平均值
 t_df.mean()
