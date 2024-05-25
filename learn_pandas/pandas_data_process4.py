@@ -114,3 +114,44 @@ if __name__ == '__main__':
 	•	还可以通过how来控制合并的结果，默认是内合并，还有外合并outer，左合并left，右合并right。
     
     '''
+
+    # 2 pandas缺失值处理
+    '''
+    缺失值：None和np.nan
+    None是Python内置的常量，用于表示“无值”或“空值”。它的类型是NoneType是空对象。  np.nan是NumPy库中的一个常量，用于表示“不是一个数字”（Not a Number）。它的类型是浮点数（float）。
+    None通常用于函数没有返回值、变量未赋值或明确表示“空”的场景，例如：if x is None 。 np.nan通常用于处理数值数据中的缺失值或无效值，特别是在数组和数据分析中。
+    None与任何其他对象的比较通常是False（除了与自己比较）。可以使用is关键字来检查一个变量是否是None。np.nan与任何数值的比较总是False，包括与自己比较也是False（np.nan == np.nan是False）。可以使用np.isnan()函数来检查一个值是否是np.nan。
+    None不能参与任何数学运算，如果尝试对None进行数学运算会抛出TypeError。  np.nan可以参与数学运算，但结果通常也是np.nan，例如：np.nan + 1仍然是np.nan。
+    object的运算效率要比float要慢很多
+    '''
+    '''
+    isnull()
+    notnull()
+    all()和any()
+    dropna()
+    fillna()
+    '''
+    # 2.1np.nan运算————可以用np.nan*()来计算，此时会过滤掉nan
+    array1 = np.array([1, 2, 3, 4, np.nan, 5])
+    s = np.sum(array1)  # 结果仍然是np.nan，其他直接对np.nan的数学运算也是不可以的
+    s2 = np.nansum(array1)  # 结果是15.0
+
+    # 2.2 pandas中的None和np.nan
+    data = np.random.randint(0, 100, size=(5, 5))
+    df9 = pd.DataFrame(data=data, columns=list('ABCDE'))
+    df9.loc[1, 'C'] = np.nan
+    df9.loc[4, 'E'] = None
+    print(df9)  # 在pandas中无论写None还是np.nan都会被一律识别为np.nan
+
+    # 2.3 缺失值检测
+    # df.isnull
+    bool_df9 = df9.isnull()  # 会返回一个同样结构的df，如果是空值就会是True，如果有值就会是False
+    print(bool_df9)
+    bool2_df9 = df9.notnull()  # 会返回一个同样结构的df，和isnull()相反，如果是空值就会是False，如果有值就会是 True ,
+    # all():必须全部为True才是True，any()只要有一个为True就为True
+    boll_result = df9.isnull().any()  # 返回值是一个Series，索引是df的列，尽可能找到有空值的列
+    boll_result2 = df9.isnull().all()  # 返回值是一个Series，必须全部为空的行或列才会是True
+    boll_result3 = df9.notnull().all()  # 返回值是一个Series，找不为空的，即找所有都没有空值的列或者行
+    boll_result4 = df9.notnull().any()  # 只要有一个不为空就可以列
+    # 改成找行的只需要给all()和any()换个维度就可以列
+    boll_result5 = df9.notnull().all(axis=1)
