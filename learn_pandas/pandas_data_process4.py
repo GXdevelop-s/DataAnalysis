@@ -155,3 +155,24 @@ if __name__ == '__main__':
     boll_result4 = df9.notnull().any()  # 只要有一个不为空就可以列
     # 改成找行的只需要给all()和any()换个维度就可以列
     boll_result5 = df9.notnull().all(axis=1)
+
+    # 2.4 过滤数据
+    # 使用bool值进行过滤
+    # 行过滤
+    cond = df9.isnull.any()  # 现在是有空的行就会是true,作为条件来使用
+    print(df9[cond])  # 是true的行才会被保留，也就是无空值才会被保留
+    print(df9[~cond])  # ～取反，和上面相反
+    # 列过滤
+    print(df9.loc[:, cond])  # 行不做处理，对列加条件
+    print(df9.loc[:, ~cond])  # 列过滤取反
+
+    # 使用过滤函数dropna进行过滤
+    new_df9 = df9.dropna(axis=1)  # 删除有空的列，默认删除有空的行
+    # 必须所有数据都为nan才会删除
+    print(df9.dropna(how='all'))  # 行中所有值都是空的才会删除
+    print(df9.dropna(how='any', axis=1))  # 列中有空值就会删除
+    # 修改原数据
+    df9.dropna(inplace=True)
+    # inplace=True 参数会直接修改原始的 DataFrame (df9)，并返回 None，所以保险的做法是先搞一个副本
+    df9_copy = df9.copy()
+    print(df9_copy.dropna(inplace=True))
