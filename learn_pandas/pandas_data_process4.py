@@ -149,22 +149,25 @@ if __name__ == '__main__':
     print(bool_df9)
     bool2_df9 = df9.notnull()  # 会返回一个同样结构的df，和isnull()相反，如果是空值就会是False，如果有值就会是 True ,
     # all():必须全部为True才是True，any()只要有一个为True就为True
-    boll_result = df9.isnull().any()  # 返回值是一个Series，索引是df的列，尽可能找到有空值的列
+    boll_result = df9.isnull().any()  # 返回值是一个Series，其索引是df的列，尽可能找到有空值的列
     boll_result2 = df9.isnull().all()  # 返回值是一个Series，必须全部为空的行或列才会是True
-    boll_result3 = df9.notnull().all()  # 返回值是一个Series，找不为空的，即找所有都没有空值的列或者行
-    boll_result4 = df9.notnull().any()  # 只要有一个不为空就可以列
-    # 改成找行的只需要给all()和any()换个维度就可以列
+    boll_result3 = df9.notnull().all()  # 返回值是一个Series，找不为空的，即找所有都没有空值的列
+    boll_result4 = df9.notnull().any()  # 只要有一个不为空就可以
+    # 改成找行的只需要给all()和any()换个维度就可以
     boll_result5 = df9.notnull().all(axis=1)
 
     # 2.4 过滤数据
     # 使用bool值进行过滤
     # 行过滤
-    cond = df9.isnull.any()  # 现在是有空的行就会是true,作为条件来使用
-    print(df9[cond])  # 是true的行才会被保留，也就是无空值才会被保留
+    cond = df9.isnull().any(axis=1)  # 现在是有空的行就会是true,作为条件来使用
+    print(df9[cond])  # 是true的行才会被保留，也就是有空值才会被保留  ps：当你向数据框 df9 提供一个布尔序列或布尔数组（列表或Numpy数组）时，Pandas 默认这些布尔值是用来索引行的！！！
     print(df9[~cond])  # ～取反，和上面相反
     # 列过滤
     print(df9.loc[:, cond])  # 行不做处理，对列加条件
     print(df9.loc[:, ~cond])  # 列过滤取反
+    # 过滤场景举例：假设现在需要选择出所有 age这一列大于10的人员名单，怎么pandas实现
+    cond2 = df9['age'] > 10 # 这部分是一个逐元素比较是否大于10的操作，结果是一个布尔序列
+    order10_df=df9[cond2]
 
     # 使用过滤函数dropna进行过滤
     new_df9 = df9.dropna(axis=1)  # 删除有空的列，默认删除有空的行
