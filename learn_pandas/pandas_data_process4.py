@@ -184,4 +184,29 @@ if __name__ == '__main__':
     df10 = df9.copy()
     df10.fillna(value=10, inplace=False, limit=100)  # limit是限制填充的次数且 inplace参数决定了函数是否有返回值
     foredf10 = df10.fillna(method='ffill', inplace=False, limit=100)  # 向前填充 forefill 配合axis=1 则是向左填充
-    backdf10 = df10.fillna(method='bfill', inplace=False, limit=100)    # 向后填充 backfill  配合axis=0 则是向右填充
+    backdf10 = df10.fillna(method='bfill', inplace=False, limit=100)  # 向后填充 backfill  配合axis=0 则是向右填充
+
+    # 3. pandas 重复值处理
+    # duplicated（）   ————检测是否有重复的行
+    # drop_duplicated（） ——————删除重复的行
+    # 一般来说重复值只考虑行，因为无论是excel还是结构型数据库都是行才有意义
+    df11 = make_df([1, 2, 3, 4], list('ABCD'))
+    # 让前两行的数据重复
+    df11.loc[1] = df11.loc[2]
+
+    # 识别重复数据
+    # 是否出现和前面的行重复了
+    dup_series = df11.duplicated()  # 返回值是一个series，其索引是原df的行索引
+    # 标记方式选择
+    df11.duplicated(keep='first')  # 默认选项 标记除了第一次出现之外的所有重复行为 True。第一次出现的行被视为唯一行，不会被标记为重复
+    df11.duplicated(keep='last')  # 标记除了最后一次出现之外的所有重复行为 True。最后一次出现的行被视为唯一行，不会被标记为重复
+    df11.duplicated(keep=False)  # 所有重复的行都标记为 True，即使是第一次或最后一次出现的行也不例外。
+    # 判断某几列组合的重复数据
+    df11.duplicated(subset=['B', 'D'])  # 在这个例子中，只有在列 'B' 和列 'D' 的组合值相同时，行才被认为是重复的。
+
+    # 删除重复值
+    df11_copy = df11.copy()
+    df11_copy.drop_duplicates()
+    # 某几列组合重复删除
+    df11_copy.drop_duplicates(subset=['B', 'D'])
+    df11_copy.drop_duplicates(subset=['B', 'D'], keep='last')   # 表示保留最后出现的一行，前面重复的删除掉
