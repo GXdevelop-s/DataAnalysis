@@ -166,10 +166,10 @@ if __name__ == '__main__':
     print(df9.loc[:, cond])  # 行不做处理，对列加条件
     print(df9.loc[:, ~cond])  # 列过滤取反
     # 过滤场景举例：假设现在需要选择出所有 age这一列大于10的人员名单，怎么pandas实现
-    cond2 = df9['age'] > 10 # 这部分是一个逐元素比较是否大于10的操作，结果是一个布尔序列
-    order10_df=df9[cond2]
+    cond2 = df9['age'] > 10  # 这部分是一个逐元素比较是否大于10的操作，结果是一个布尔序列
+    order10_df = df9[cond2]
 
-    # 使用过滤函数dropna进行过滤
+    # 使用过滤函数dropna()进行过滤
     new_df9 = df9.dropna(axis=1)  # 删除有空的列，默认删除有空的行
     # 必须所有数据都为nan才会删除
     print(df9.dropna(how='all'))  # 行中所有值都是空的才会删除
@@ -179,3 +179,9 @@ if __name__ == '__main__':
     # inplace=True 参数会直接修改原始的 DataFrame (df9)，并返回 None，所以保险的做法是先搞一个副本
     df9_copy = df9.copy()
     print(df9_copy.dropna(inplace=True))
+
+    # 使用函数fillna()进行空值的填充
+    df10 = df9.copy()
+    df10.fillna(value=10, inplace=False, limit=100)  # limit是限制填充的次数且 inplace参数决定了函数是否有返回值
+    foredf10 = df10.fillna(method='ffill', inplace=False, limit=100)  # 向前填充 forefill 配合axis=1 则是向左填充
+    backdf10 = df10.fillna(method='bfill', inplace=False, limit=100)    # 向后填充 backfill  配合axis=0 则是向右填充
