@@ -209,4 +209,43 @@ if __name__ == '__main__':
     df11_copy.drop_duplicates()
     # 某几列组合重复删除
     df11_copy.drop_duplicates(subset=['B', 'D'])
-    df11_copy.drop_duplicates(subset=['B', 'D'], keep='last')   # 表示保留最后出现的一行，前面重复的删除掉
+    df11_copy.drop_duplicates(subset=['B', 'D'], keep='last')  # 表示保留最后出现的一行，前面重复的删除掉
+
+    # 4.pandas 数据映射
+    '''
+    replace()函数：替换元素
+    map()函数：处理某一单独的列
+    rename()函数：替换索引
+    '''
+    # 4.1replace()函数：替换元素
+    index = ['张三', '李四', '王五', '赵高']
+    columns = ['js', 'py', 'c#', 'php']
+    data2 = np.random.randint(0, 100, size=(4, 4))
+    df12 = pd.DataFrame(data=data2, index=index, columns=columns)
+    df12.replace({5: 50, 1: 100}, inplace=True)  # 将所有5变成50，1变成100
+    # 4.2 map()函数：处理单独列（批量处理列中元素）,是series的方法，不是dataframe的方法 且map中可以使用lambda函数
+    df12_copy = df12.copy()
+    # 结合匿名函数lambda使用
+    df12_copy['py'].map(lambda x: x * 10)  # 虽然df12_copy['py']*10也可以完成，但是复杂一些用map更好
+    df12_copy['python'] = df12_copy['py'].map(lambda x: x * 10)  # 在最后新增一列
+    df12_copy['python是否及格'] = df12_copy['py'].map(lambda x: '及格' if x > 60 else '不及格')  # 新增一列判断某列是否满足某个条件
+
+
+    # 结合普通函数使用——判断js成绩 不及格 及格 优秀
+    def band(n):
+        if n < 60:
+            return 'fail'
+        elif 60 <= n < 80:
+            return 'pass'
+        else:
+            return 'great'
+
+
+    df12_copy['js等级'] = df12_copy['js'].map(band)
+    # 4.3rename()函数：替换索引
+    df12_copy.rename(index={'赵高': 'sb'})  # 默认替换行索引
+    df12_copy.rename(columns={'js': 'javascript'}, inplace=True)    # 替换列索引
+    # 重置索引
+    df12_copy.reset_index(inplace=True) # 将行索引变成新的数字索引，原来的行索引变成一列数据
+    # 设置索引
+    df12_copy.set_index(keys=['php'])   # 这会将php这一列的数据作为行索引
