@@ -244,8 +244,47 @@ if __name__ == '__main__':
     df12_copy['js等级'] = df12_copy['js'].map(band)
     # 4.3rename()函数：替换索引
     df12_copy.rename(index={'赵高': 'sb'})  # 默认替换行索引
-    df12_copy.rename(columns={'js': 'javascript'}, inplace=True)    # 替换列索引
+    df12_copy.rename(columns={'js': 'javascript'}, inplace=True)  # 替换列索引
     # 重置索引
-    df12_copy.reset_index(inplace=True) # 将行索引变成新的数字索引，原来的行索引变成一列数据
+    df12_copy.reset_index(inplace=True)  # 将行索引变成新的数字索引，原来的行索引变成一列数据
     # 设置索引
-    df12_copy.set_index(keys=['php'])   # 这会将php这一列的数据作为行索引
+    df12_copy.set_index(keys=['php'])  # 这会将php这一列的数据作为行索引
+
+
+
+
+
+    # 5.数据处理
+    df13 = pd.DataFrame(data=np.random.randint(0, 100, size=(5, 3)), index=list('ABCDE'), columns=['PY', 'NP', 'PD'])
+    # 一般批量处理数据都是处理一列为主，因为一列是同类型的数据
+    # 5.1 apply() 函数 用于series,这种方式和map几乎就一样了
+    df13['PY'] = df13['PY'].apply(lambda x: True if x > 5 else False)
+    # 用于dataframe，其中x是dataframe中的某列或某行，是个Series数据
+    sub_df13 = df13.apply(lambda x: x.mean(), axis=0)  # 默认求每一列数据的平均值（对一列中每一行求和再求平均）
+
+
+    # 自定义函数
+    def fun1(x):
+        x['PY'] += 1
+        x['NP'] -= 1
+        x['PD'] * 10
+
+
+    df13.apply(fun1, axis=1)  # 这里要特别注意，只有axis=1，apply传入的才是行
+    # 5.2 applymap()函数：这种方法是df专有的，其中的x是每一个元素
+    df13.applymap(lambda x: x + 1)
+
+    # 5.3transform()函数
+    # series中使用transform可以执行多项计算
+    df13['PY'].transform([np.exp, np.sqrt])  # 第一列加exp，第二列开方
+
+
+    # dataframe中使用transform,传入的x是series
+    def convert(x):
+        if x.mean > 5:
+            return x * 10
+        return x * (-10)
+
+
+    df13.transform(convert) # 默认axis=0，处理每一列
+
