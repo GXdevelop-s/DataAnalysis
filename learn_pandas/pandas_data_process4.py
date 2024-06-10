@@ -250,10 +250,6 @@ if __name__ == '__main__':
     # 设置索引
     df12_copy.set_index(keys=['php'])  # 这会将php这一列的数据作为行索引
 
-
-
-
-
     # 5.数据处理
     df13 = pd.DataFrame(data=np.random.randint(0, 100, size=(5, 3)), index=list('ABCDE'), columns=['PY', 'NP', 'PD'])
     # 一般批量处理数据都是处理一列为主，因为一列是同类型的数据
@@ -286,5 +282,54 @@ if __name__ == '__main__':
         return x * (-10)
 
 
-    df13.transform(convert) # 默认axis=0，处理每一列
+    df13.transform(convert)  # 默认axis=0，处理每一列
 
+    # 6 异常值处理
+    '''
+    describe():查看每一列的描述性统计量
+    df.std():可以求得dataframe对象每一列的标准差
+    df.drop():删除特定索引
+    unique():返回列中唯一值的数组
+    df.query():按条件查询
+    df.sort_values(by=''):根据值排序
+    df.sort_index():根据索引排序
+    df.info():查看数据信息
+    '''
+    # describe()：返回值为dateframe类型，默认返回每一列的数据条数、平均值、标准差、最小值、25、50、75分位
+    df13.describe()
+    df13.describe([0.3, 0.4, 0.71, 0.99])  # 可以自定义分位值
+    df13.describe([0.3, 0.4, 0.71, 0.99]).T  # 可以转置显示
+    # df.std()
+    df13.std()
+    # df.drop():按索引删除  ,返回值是删除后的dataframe
+    df13.drop('A')  # 删除行
+    df13.drop('PY', axis=1)  # 删除列
+    df13.drop(index='A')  # 删除行
+    df13.drop(columns='PY')  # 删除列
+    df13.drop(columns=['PY', 'PD'])  # 删除多行
+    df13.drop(index=['C', 'D'], inplace=True)  # 直接在原df上修改
+    # unique()：dataframe没有unique，Series调用
+    unique_values = df13['PY'].unique()
+    # df.query():按条件查询 == < > and & or | in 这些运算符都是可以的，可以用来过滤异常值
+    df13.query('PY in unique_values')
+    df13.query('PY == 9')  # 找到PY列中等于9的所有行
+    df13.query('PY < 9')
+    df13.query('PY >= 9 and PD <10')
+    df13.query('PY in [3,4,5]')
+    n = 7
+    df13.query('PY == @n')  # @n表示使用变量n的值
+    m = [3, 4, 5]
+    df13.query('PY in @m')  # 成员运算符
+    # df.sort_values(by='')
+    df13.sort_values('PD')  # 默认按照列名且默认升序
+    df13.sort_values('PY', ascending=False)  # 降序
+    df13.sort_values('B', axis=1)  # 根据行索引名排序,左右排序不常用
+    # df.sort_index():根据索引排序，字符是根据ascii，不常用
+    df13.sort_index(ascending=False)  # 默认对行进行排序
+    # df.info() 常用 ，一般拿到数据，都会看一下
+    df13.info()
+    # 练习：新建一个形状为10000*3的标准正太分布的Dataframe（np.random.randn）,去除一下情况的行：任一元素绝对值大于3倍标准差
+    df_practice = pd.DataFrame(data=np.random.randn(10000, 3))
+    cond_practice1 = df_practice.abs() > df.std() * 3   # 过滤异常值重点关注的是条件：df_practice.abs() 和 std_dev * 3 是逐列操作的，通过广播机制可以正确对应每列的标准差值
+    cond_practice2=cond_practice1.any(axis=1)   # 使用行过滤
+    practice_result=df_practice.loc[~cond_practice2]

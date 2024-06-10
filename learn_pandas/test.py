@@ -13,3 +13,5 @@ if __name__ == '__main__':
 
     df13.apply(fun1,axis=1)
     print(df13)
+    print(df13.info)
+
