@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import pymysql
+from sqlalchemy import create_engine  # 就是一个orm，能pythonic的操作数据库
 
 if __name__ == '__main__':
     # 1.数据分组聚合
@@ -53,3 +55,22 @@ if __name__ == '__main__':
     # 3
     merge_r = carrot_weight.merge(carrot_avg_price, left_index=True, right_index=True)
     print(merge_r)
+
+    # 2.mysql加载数据
+    data = np.random.randint(0, 100, size=(5, 5))
+    df2 = pd.DataFrame(data=data)
+    # 连接mysql，也就是创建数据库连接对象
+    conn = create_engine('mysql+pymysql://username:password@127.0.0.1:3306/db')
+    # df.to_sql()保存到MySql
+    df2.to_sql(
+        name='',  # 表名
+        con=conn,  # 数据库连接对象
+        if_exists='append',  # 如果表存在就追加数据
+        index=False  # 是否保存行索引
+    )
+    # 从MySql中加载数据
+    pd.read_sql(
+        'select * from table1',
+        con=conn,  # 数据库连接对象
+        index_col='x'  # 行索引用哪一个字段
+    )
