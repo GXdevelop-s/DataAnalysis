@@ -7,10 +7,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    # 基本绘图
+    # 1.基本绘图
     x = np.linspace(-5, 5, 50)
     y = x ** 2
-    plt.plot(x, y, label='')  # 如果多次plt.plot最后再show，会显示多个图形在一张表
+    plt.plot(x, y, color='pink')  # 如果多次plt.plot最后再show，会显示多个图形在一张表
     plt.show()  # 在标准的Python脚本中，需要显式地调用 plt.show()
     '''
     颜色和样式
@@ -24,5 +24,23 @@ if __name__ == '__main__':
 	m：品红（magenta）   y：黄色（yellow）    k：黑色（black） w：白色（white）
     '''
     plt.plot(x, y, color='b', ls='--')  # ls line style线条样式
-    plt.plot(x, y, 'b--')
-    plt.show()  # 每次调plt.show,都会将本行代码前的所有plot都展示一遍,无论之前的plt.show()展示过没有
+    plt.plot(x, y*2, 'b-')
+    plt.show()  # 每次调plt.show,都会将本行代码前还未显示的所有plot都展示且在同一张图标,即到上一个show()为止的所有plot
+
+    # 画布配置
+    plt.figure(figsize=(5,3),dpi=200,facecolor='r')
+    '''
+    figsize:画布大小，宽高
+    dpi:分辨率，像素密度
+    facecolor:背景颜色
+    
+    '''
+    # 画正弦曲线
+    x1=np.linspace(0,2*np.pi)
+    y1=np.sin(x1)
+    plt.plot(x1,y1)
+    #设置网格
+    plt.grid()
+    plt.show()
+
+
