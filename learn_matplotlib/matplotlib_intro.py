@@ -123,3 +123,19 @@ if __name__ == '__main__':
     # 图2：嵌套图 add_axes()
     axess2 = fig3.add_axes((0.1, 0.5, 0.3, 0.7))
     axess2.plot(x4, y4, color='r')
+
+    # 双轴显示/组合图
+    fig4 = plt.figure(figsize=(8, 5))
+    x5 = np.linspace(0, 2 * np.pi, 100)
+    # 图1
+    current_axis = plt.gca()  # 得到当前轴对象
+    current_axis.plot(x5, np.exp(x), c='r')
+    current_axis.set_xlabel('time')  # 子图要用set_xlabel,如果不是子图就直接是xlabel
+    current_axis.set_ylabel('exp', c='r')
+    current_axis.tick_params(axis='y', labelcolor='r')   # 改刻度,改y轴刻度的颜色
+    # 图2
+    another_axis = current_axis.twinx()  # 创建一个新的 y 轴，与 axes1 共享 x 轴。
+    another_axis.plot(x5, np.sin(x5), color='b')
+    another_axis.set_ylabel('sin',c='b')
+    another_axis.tick_params(axis='y', labelcolor='blue')
+    plt.tight_layout()
