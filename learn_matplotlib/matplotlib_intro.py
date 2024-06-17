@@ -91,7 +91,7 @@ if __name__ == '__main__':
     fig2.set_figheight(8)
     fig2.set_figwidth(8)
     # 此时的画布和画框都有了，只是没有曲线和数据，但也是可以show()的其实
-    ax11.plot(x3,np.sin(x3))
+    ax11.plot(x3, np.sin(x3))
     ax12.plot(x3, np.sin(x3))
     ax13.plot(x3, np.sin(x3))
     ax21.plot(x3, np.cos(x3))
@@ -101,3 +101,25 @@ if __name__ == '__main__':
     ax32.plot(x3, np.sin(x3))
     ax33.plot(x3, np.sinh(x3))
     plt.tight_layout()  # 紧凑布局
+
+    # 3.图形嵌套 add_subplot函数
+    fig3 = plt.figure(figsize=(8, 5))
+    # 子图1
+    axes1 = fig3.add_subplot(1, 1, 1)
+    axes1.plot([0, 1], [1, 3])  # （0，1）点和（1，3）点
+    # 子图2：嵌套图
+    axes2 = fig3.add_subplot(2, 2, 1, facecolor='pink')  # 会将现在的画布（既是fig3也是axes1的大小）划分成4份，然后放在第一个位置,加背景颜色
+    axes2.plot([1, 3])  # 可以直接写1，3
+
+    # 使用axes()函数和add_axes()进行图形嵌套
+    fig3 = plt.figure(figsize=(8, 5))
+    # 图1
+    x4 = np.linspace(0, 2 * np.pi, 30)
+    y4 = np.sin(x4)
+    plt.plot(x4, y4)
+    # 图2：嵌套图 axes()
+    axess1 = plt.axes((0.5, 0.35, 0.3, 0.1))  # (left,bottom,width,height)
+    axess1.plot(x4, y4, color='g')
+    # 图2：嵌套图 add_axes()
+    axess2 = fig3.add_axes((0.1, 0.5, 0.3, 0.7))
+    axess2.plot(x4, y4, color='r')
