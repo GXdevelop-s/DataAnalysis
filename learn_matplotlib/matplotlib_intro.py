@@ -23,7 +23,7 @@ if __name__ == '__main__':
     b：蓝色（blue）      g：绿色（green）     r：红色（red）   c：青色（cyan）
 	m：品红（magenta）   y：黄色（yellow）    k：黑色（black） w：白色（white）
     '''
-    plt.plot(x, y, color='b', ls='--')  # ls line style线条样式
+    plt.plot(x, y, color='b', ls='--')  # ls  line style 线条样式
     plt.plot(x, y * 2, 'b-')
     plt.show()  # 每次调plt.show,都会将本行代码前还未显示的所有plot都展示且在同一张图标,即到上一个show()为止的所有plot
 
@@ -33,7 +33,6 @@ if __name__ == '__main__':
     figsize:画布大小，宽高
     dpi:分辨率，像素密度
     facecolor:背景颜色
-    
     '''
     # 画正弦曲线
     x1 = np.linspace(0, 2 * np.pi)
@@ -130,12 +129,12 @@ if __name__ == '__main__':
     # 图1
     current_axis = plt.gca()  # 得到当前轴对象
     current_axis.plot(x5, np.exp(x), c='r')
-    current_axis.set_xlabel('time')  # 子图要用set_xlabel,如果不是子图就直接是xlabel
+    current_axis.set_xlabel('time')  # 子图要用set_xlabel,如果不是子图就直接是xlabel即plt.xlabel()
     current_axis.set_ylabel('exp', c='r')
-    current_axis.tick_params(axis='y', labelcolor='r')   # 改刻度,改y轴刻度的颜色
+    current_axis.tick_params(axis='y', labelcolor='r')  # 改刻度,改y轴刻度的颜色
     # 图2
     another_axis = current_axis.twinx()  # 创建一个新的 y 轴，与 axes1 共享 x 轴。
     another_axis.plot(x5, np.sin(x5), color='b')
-    another_axis.set_ylabel('sin',c='b')
+    another_axis.set_ylabel('sin', c='b')
     another_axis.tick_params(axis='y', labelcolor='blue')
     plt.tight_layout()
