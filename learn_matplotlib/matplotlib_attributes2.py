@@ -61,7 +61,7 @@ if __name__ == '__main__':
     plt.plot(x, y, c='r')  # 当前情况下坐标轴的范围是（0，2pi），但是可以控制
     plt.xlim(-2, 8)  # 设置x坐标轴的范围为-2到8
     plt.ylim(-2, 2)  # 设置y坐标轴的范围为-2到2
-    # 设置坐标轴
+    # 设置坐标轴开关和范围
     plt.axis([1, -3, 4, 2])  # 设置坐标轴范围[xmin,xmax,ymin,ymax]
     plt.axis('on')  # 'off':不显示坐标轴 'equal':让x轴和y轴刻度距离相同  'scaled':自动缩放坐标轴和图片匹配 'tight':紧凑自动适配图片 'square':画布成正方形
     # 标题
@@ -72,4 +72,8 @@ if __name__ == '__main__':
     plt.title('sin曲线', fontsize=20, loc='center')  # 图的标题的属性 比如标题内容，标题字号，标题位置等等
     plt.suptitle('这是sin曲线的父标题', y=1.1, fonsize=22)  # 图的标题的父标题,y=1的时候父标题差不多就在标题上面一点点
     # 网格线
-    plt.grid(ls='--', lw=0.5, c='r',axis='x')  # ls网格线条的样式 lw网格线条的宽度,axis只显示哪个轴对应的网格线条
+    plt.grid(ls='--', lw=0.5, c='r', axis='x')  # ls网格线条的样式 lw网格线条的宽度,axis只显示哪个轴对应的网格线条
+    # 坐标轴的标签
+    plt.xlabel('x', fontsize=10, rotation=0,
+               horizontalalignment='right')  # rotation是旋转的角度，0度是水平,horizontalalignment是对齐方式，right是靠右对齐
+    plt.ylabel('y')
