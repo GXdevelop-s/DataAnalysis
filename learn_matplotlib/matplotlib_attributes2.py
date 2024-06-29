@@ -77,3 +77,20 @@ if __name__ == '__main__':
     plt.xlabel('x', fontsize=10, rotation=0,
                horizontalalignment='right')  # rotation是旋转的角度，0度是水平,horizontalalignment是对齐方式，right是靠右对齐
     plt.ylabel('y')
+    # 文本 text
+    plt.figure(figsize=(6, 4))
+    x = np.linspace(0, 10, 10)
+    y = np.array([12, 445, 75, 74, 83, 17, 75])
+    plt.plot(x, y)
+    plt.text(2, 80, 'fuck you')  # 画文字 在（2，80）的坐标点处会有文字‘fuck you’
+    for a, b in zip(x, y):  # 每个点都画文字
+        plt.text(
+            x=a,  # 横坐标
+            b=b,  # 纵坐标
+            s=str(b),  # 文本内容
+            fontsize=10,
+            color='r',
+            horizontalalignment='right',  # 水平对齐方式，ha也行
+            verticalalignment='center',  # 垂直对齐方式 va也行
+            ha='center', va=''
+        )
