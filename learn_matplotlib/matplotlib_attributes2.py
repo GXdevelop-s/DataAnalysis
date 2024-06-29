@@ -99,11 +99,20 @@ if __name__ == '__main__':
         text='最高销量',  # 标注内容
         xy=(2, 8),  # 标注的坐标点，箭头指向的位置
         xytext=(1, 3),  # 标注内容的位置，箭头的起始位置
-        arrowprops={    # 箭头的属性设置
+        arrowprops={  # 箭头的属性设置
             'arrowstyle': '->',
             'arrowsize': 10,
             'headwidth': 8,  # 箭头头部的宽度
             'facecolor': 'blue',
             'width': 2  # 箭头的宽度
         }
+    )
+    # 保存图片 savefig
+    fig = plt.figure(figsize=(6, 4))
+    plt.savefig('/path/sin.png')  # 方法1
+    fig.savefig(    # 方法2
+        '/path/sin.png',  # 支持常见的图片格式
+        dpi=300,  # 保存图片的像素密度
+        facecolor='pink',  # 背景颜色
+        pad_inches=1   # 内边距，指最边上和图的距离
     )
