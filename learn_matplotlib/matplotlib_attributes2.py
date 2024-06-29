@@ -94,3 +94,16 @@ if __name__ == '__main__':
             verticalalignment='center',  # 垂直对齐方式 va也行
             ha='center', va=''
         )
+    # 注释annotate
+    plt.annotate(
+        text='最高销量',  # 标注内容
+        xy=(2, 8),  # 标注的坐标点，箭头指向的位置
+        xytext=(1, 3),  # 标注内容的位置，箭头的起始位置
+        arrowprops={    # 箭头的属性设置
+            'arrowstyle': '->',
+            'arrowsize': 10,
+            'headwidth': 8,  # 箭头头部的宽度
+            'facecolor': 'blue',
+            'width': 2  # 箭头的宽度
+        }
+    )
